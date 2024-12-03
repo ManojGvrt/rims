@@ -2,16 +2,16 @@
 const { base } = Astro;
 
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Gallery', href: '/gallery-public' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Home', href: `${base}/` },
+  { label: 'Gallery', href: `${base}/gallery-public` },
+  { label: 'Pricing', href: `${base}/pricing` },
 ];
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <!-- Logo -->
-    <a href="/" class="flex items-center space-x-2">
+    <a href={`${base}/`} class="flex items-center space-x-2">
       <img src={`${base}/logo.svg`} alt="RIMS AI" class="h-8 w-auto" />
       <span class="text-white font-bold text-xl">RIMS AI</span>
     </a>
@@ -28,11 +28,11 @@ const navItems = [
       ))}
       
       <div class="flex items-center space-x-6">
-        <a href="/login" class="text-white/70 hover:text-white transition-colors font-medium">
+        <a href={`${base}/login`} class="text-white/70 hover:text-white transition-colors font-medium">
           Log in
         </a>
         <a 
-          href="/signup"
+          href={`${base}/signup`}
           class="px-4 py-2 bg-white text-black font-bold rounded-md border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
         >
           Start Free Trial
@@ -49,8 +49,8 @@ const navItems = [
       <svg 
         class="w-6 h-6" 
         fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24"
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
       >
         <path 
           stroke-linecap="round" 
@@ -65,26 +65,26 @@ const navItems = [
   <!-- Mobile Menu -->
   <div 
     id="mobile-menu" 
-    class="hidden md:hidden fixed inset-0 bg-black/95 z-50 pt-24 px-4"
+    class="hidden md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-t border-white/10"
   >
-    <div class="flex flex-col items-center space-y-8">
+    <div class="max-w-7xl mx-auto py-4 px-4 space-y-4">
       {navItems.map(item => (
         <a 
-          href={item.href} 
-          class="text-white/70 hover:text-white transition-colors font-medium text-lg"
+          href={item.href}
+          class="block text-white/70 hover:text-white transition-colors font-medium py-2"
         >
           {item.label}
         </a>
       ))}
       <a 
-        href="/login" 
-        class="text-white/70 hover:text-white transition-colors font-medium text-lg"
+        href={`${base}/login`}
+        class="block text-white/70 hover:text-white transition-colors font-medium py-2"
       >
         Log in
       </a>
       <a 
-        href="/signup"
-        class="w-full max-w-xs px-4 py-2 bg-white text-black font-bold rounded-md text-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+        href={`${base}/signup`}
+        class="inline-block px-4 py-2 bg-white text-black font-bold rounded-md border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
       >
         Start Free Trial
       </a>
@@ -100,17 +100,12 @@ const navItems = [
     mobileMenuButton.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
-  }
 
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', (event) => {
-    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-      const isClickInsideMenu = mobileMenu.contains(event.target as Node);
-      const isClickOnButton = mobileMenuButton?.contains(event.target as Node);
-      
-      if (!isClickInsideMenu && !isClickOnButton) {
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!mobileMenuButton.contains(event.target as Node) && !mobileMenu.contains(event.target as Node)) {
         mobileMenu.classList.add('hidden');
       }
-    }
-  });
+    });
+  }
 </script>
