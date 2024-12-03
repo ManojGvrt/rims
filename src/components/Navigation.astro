@@ -8,7 +8,7 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 w-screen z-50">
+<header class="fixed top-0 left-0 w-screen z-50 opacity-0 transition-opacity duration-300 ease-in-out" id="main-header">
   <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
   
   <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
@@ -54,6 +54,20 @@ const navItems = [
     </div>
   </nav>
 </header>
+
+<script>
+  // Ensure the header is fully rendered before becoming visible
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById('main-header');
+    if (header) {
+      // Small delay to ensure layout is stable
+      setTimeout(() => {
+        header.classList.remove('opacity-0');
+        header.classList.add('opacity-100');
+      }, 50);
+    }
+  });
+</script>
 
 <style>
   header {
