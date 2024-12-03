@@ -4,6 +4,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const { pathname } = Astro.url;
 ---
 
 <!DOCTYPE html>
@@ -41,19 +42,19 @@ const { title } = Astro.props;
 
         <!-- Navigation and Action Items -->
         <div class="relative z-20 hidden md:flex items-center space-x-6">
-          <a href="/rims/" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+          <a href="/" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
             Home
           </a>
-          <a href="/rims/gallery-public" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+          <a href="/gallery-public" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
             Gallery
           </a>
-          <a href="/rims/pricing" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+          <a href="/pricing" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
             Pricing
           </a>
-          <a href="/rims/login" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+          <a href="/login" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
             Log in
           </a>
-          <a href="/rims/signup" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-black bg-white border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+          <a href="/signup" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-black bg-white border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
             Start Free Trial
           </a>
         </div>
@@ -73,12 +74,12 @@ const { title } = Astro.props;
     <!-- Mobile menu -->
     <div class="hidden" id="mobile-menu">
       <div class="space-y-1 px-4 pb-3 pt-2">
-        <a href="/rims/" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Home</a>
-        <a href="/rims/gallery-public" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Gallery</a>
-        <a href="/rims/pricing" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Pricing</a>
+        <a href="/" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Home</a>
+        <a href="/gallery-public" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Gallery</a>
+        <a href="/pricing" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Pricing</a>
         <div class="mt-4 space-y-3">
-          <a href="/rims/login" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Log in</a>
-          <a href="/rims/signup" class="block w-full px-4 py-3 text-base font-bold text-black bg-white border-2 border-black rounded-md text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+          <a href="/login" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Log in</a>
+          <a href="/signup" class="block w-full px-4 py-3 text-base font-bold text-black bg-white border-2 border-black rounded-md text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
             Start Free Trial
           </a>
         </div>
