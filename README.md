@@ -1,4 +1,7 @@
-# RIMS AI: Revolutionizing Design with Artificial Intelligence
+export default defineConfig({
+  site: 'https://ManojGvrt.github.io',
+  base: '/rims',
+})# RIMS AI: Revolutionizing Design with Artificial Intelligence
 
 ## 🚀 Project Overview
 

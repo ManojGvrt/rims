@@ -2,110 +2,63 @@
 const { base } = Astro;
 
 const navItems = [
-  { label: 'Home', href: `${base}/` },
-  { label: 'Gallery', href: `${base}/gallery-public` },
-  { label: 'Pricing', href: `${base}/pricing` },
+  { label: 'Home', href: '/rims' },
+  { label: 'Gallery', href: '/rims/gallery-public' },
+  { label: 'Pricing', href: '/rims/pricing' }
 ];
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <!-- Logo -->
-    <a href={`${base}/`} class="flex items-center space-x-2">
-      <img src={`${base}/logo.svg`} alt="RIMS AI" class="h-8 w-auto" />
-      <span class="text-white font-bold text-xl">RIMS AI</span>
-    </a>
-
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center space-x-8">
-      {navItems.map(item => (
-        <a 
-          href={item.href} 
-          class="text-white/70 hover:text-white transition-colors font-medium"
-        >
-          {item.label}
-        </a>
-      ))}
-      
-      <div class="flex items-center space-x-6">
-        <a href={`${base}/login`} class="text-white/70 hover:text-white transition-colors font-medium">
-          Log in
-        </a>
-        <a 
-          href={`${base}/signup`}
-          class="px-4 py-2 bg-white text-black font-bold rounded-md border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-        >
-          Start Free Trial
+<header class="fixed top-0 left-0 w-screen z-50">
+  <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
+  
+  <nav class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+    <div class="relative flex items-center justify-between h-16">
+      <!-- Logo Section -->
+      <div class="flex-shrink-0">
+        <a href="/rims" class="group inline-flex items-center">
+          <div class="px-3 py-1.5 bg-white text-black border-2 border-black rounded-md shadow-[3px_3px_0px_rgba(0,0,0,1)] transition-all group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            <span class="font-gothic text-lg font-bold tracking-tight">RIMS AI</span>
+          </div>
         </a>
       </div>
+
+      <!-- Navigation and Action Items -->
+      <div class="flex items-center space-x-6">
+        {navItems.map(item => (
+          <a 
+            href={item.href}
+            class="px-3 py-1.5 text-sm font-medium text-white/70 hover:text-white transition-colors relative 
+                   rounded-md hover:bg-white/10 group"
+          >
+            <span class="relative z-10">{item.label}</span>
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+          </a>
+        ))}
+        
+        <div class="flex items-center space-x-4">
+          <a 
+            href="/rims/login"
+            class="px-3 py-1.5 text-sm font-medium text-white/70 hover:text-white transition-colors 
+                   rounded-md hover:bg-white/10"
+          >
+            Log in
+          </a>
+          <a 
+            href="/rims/signup"
+            class="neo-button primary"
+          >
+            <span class="relative z-10">Start Free Trial</span>
+          </a>
+        </div>
+      </div>
     </div>
+  </nav>
+</header>
 
-    <!-- Mobile Menu Button -->
-    <button 
-      id="mobile-menu-button" 
-      class="md:hidden text-white p-2"
-      aria-label="Toggle menu"
-    >
-      <svg 
-        class="w-6 h-6" 
-        fill="none" 
-        viewBox="0 0 24 24" 
-        stroke="currentColor"
-      >
-        <path 
-          stroke-linecap="round" 
-          stroke-linejoin="round" 
-          stroke-width="2" 
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div 
-    id="mobile-menu" 
-    class="hidden md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-t border-white/10"
-  >
-    <div class="max-w-7xl mx-auto py-4 px-4 space-y-4">
-      {navItems.map(item => (
-        <a 
-          href={item.href}
-          class="block text-white/70 hover:text-white transition-colors font-medium py-2"
-        >
-          {item.label}
-        </a>
-      ))}
-      <a 
-        href={`${base}/login`}
-        class="block text-white/70 hover:text-white transition-colors font-medium py-2"
-      >
-        Log in
-      </a>
-      <a 
-        href={`${base}/signup`}
-        class="inline-block px-4 py-2 bg-white text-black font-bold rounded-md border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-      >
-        Start Free Trial
-      </a>
-    </div>
-  </div>
-</nav>
-
-<script>
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (event) => {
-      if (!mobileMenuButton.contains(event.target as Node) && !mobileMenu.contains(event.target as Node)) {
-        mobileMenu.classList.add('hidden');
-      }
-    });
+<style>
+  header {
+    backdrop-filter: blur(10px);
+    width: 100vw;
+    max-width: 100%;
   }
-</script>
+</style>

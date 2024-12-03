@@ -26,10 +26,10 @@ const { site, base } = Astro;
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <link href={`${base}/src/styles/globals.css`} rel="stylesheet">
   </head>
-  <body class="min-h-screen bg-background font-gothic tracking-tight antialiased">
+  <body class="min-h-screen bg-black text-white font-gothic tracking-tight antialiased">
     <div class="relative flex min-h-screen flex-col">
       <Navigation />
-      <main class="flex-1">
+      <main class="pt-24 flex-1">
         <slot />
       </main>
       <footer class="border-t py-6 md:py-0">
@@ -79,7 +79,8 @@ const { site, base } = Astro;
 
   html {
     font-family: var(--secondary-font);
-    background: var(--primary-color);
+    background: #000000;
+    color-scheme: dark;
     color: var(--text-color);
     overflow-y: scroll;
     overscroll-behavior: none;
@@ -110,6 +111,7 @@ const { site, base } = Astro;
     background: linear-gradient(to bottom, var(--primary-color), var(--primary-darker));
     position: relative;
     z-index: 2;
+    font-family: 'Gothic A1', sans-serif !important;
   }
 
   main {
