@@ -1,288 +1,116 @@
 ---
-import Button from './Button.astro';
-
-interface Props {
-  transparent?: boolean;
-}
-
-const { transparent = false } = Astro.props;
 const { base } = Astro;
 
 const navItems = [
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Features', href: '/features' },
+  { label: 'Home', href: '/' },
+  { label: 'Gallery', href: '/gallery-public' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Blog', href: '/blog' },
 ];
 ---
 
-<nav class:list={['navigation', { 'navigation--transparent': transparent }]}>
-  <div class="nav-content">
-    <a href="/" class="nav-logo">
-      <img src={`${base}/logo.svg`} alt="RIMS AI" width="32" height="32" />
-      <span class="font-gothic">RIMS AI</span>
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center space-x-2">
+      <img src={`${base}/logo.svg`} alt="RIMS AI" class="h-8 w-auto" />
+      <span class="text-white font-bold text-xl">RIMS AI</span>
     </a>
 
-    <div class="nav-items">
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-8">
       {navItems.map(item => (
-        <a href={item.href} class="nav-link">{item.label}</a>
+        <a 
+          href={item.href} 
+          class="text-white/70 hover:text-white transition-colors font-medium"
+        >
+          {item.label}
+        </a>
       ))}
+      
+      <div class="flex items-center space-x-6">
+        <a href="/login" class="text-white/70 hover:text-white transition-colors font-medium">
+          Log in
+        </a>
+        <a 
+          href="/signup"
+          class="px-4 py-2 bg-white text-black font-bold rounded-md border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+        >
+          Start Free Trial
+        </a>
+      </div>
     </div>
 
-    <div class="nav-actions">
-      <Button href="/login" variant="ghost" size="sm">Log In</Button>
-      <Button href="/signup" variant="premium" size="sm">Start Free Trial</Button>
-    </div>
-
-    <button class="mobile-menu-button" aria-label="Toggle menu">
-      <span class="menu-icon"></span>
+    <!-- Mobile Menu Button -->
+    <button 
+      id="mobile-menu-button" 
+      class="md:hidden text-white p-2"
+      aria-label="Toggle menu"
+    >
+      <svg 
+        class="w-6 h-6" 
+        fill="none" 
+        stroke="currentColor" 
+        viewBox="0 0 24 24"
+      >
+        <path 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          stroke-width="2" 
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
     </button>
   </div>
 
-  <div class="mobile-menu">
-    <div class="mobile-nav-items">
+  <!-- Mobile Menu -->
+  <div 
+    id="mobile-menu" 
+    class="hidden md:hidden fixed inset-0 bg-black/95 z-50 pt-24 px-4"
+  >
+    <div class="flex flex-col items-center space-y-8">
       {navItems.map(item => (
-        <a href={item.href} class="mobile-nav-link">{item.label}</a>
+        <a 
+          href={item.href} 
+          class="text-white/70 hover:text-white transition-colors font-medium text-lg"
+        >
+          {item.label}
+        </a>
       ))}
-    </div>
-    <div class="mobile-nav-actions">
-      <Button href="/login" variant="ghost" size="lg" class="full-width">Log In</Button>
-      <Button href="/signup" variant="premium" size="lg" class="full-width">Start Free Trial</Button>
+      <a 
+        href="/login" 
+        class="text-white/70 hover:text-white transition-colors font-medium text-lg"
+      >
+        Log in
+      </a>
+      <a 
+        href="/signup"
+        class="w-full max-w-xs px-4 py-2 bg-white text-black font-bold rounded-md text-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+      >
+        Start Free Trial
+      </a>
     </div>
   </div>
 </nav>
 
-<style>
-  .navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .navigation--transparent {
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-bottom: none;
-  }
-
-  .navigation--transparent.scrolled {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 4.5rem;
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    color: white;
-    font-size: 1.25rem;
-    transition: opacity 0.2s ease;
-  }
-
-  .nav-logo:hover {
-    opacity: 0.9;
-  }
-
-  .nav-items {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  .nav-link {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    position: relative;
-    padding: 0.5rem 0;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .nav-link:hover {
-    color: white;
-  }
-
-  .nav-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .mobile-menu-button {
-    display: none;
-    background: none;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    z-index: 101;
-  }
-
-  .menu-icon {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: white;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .menu-icon::before,
-  .menu-icon::after {
-    content: '';
-    position: absolute;
-    width: 24px;
-    height: 2px;
-    background: white;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .menu-icon::before {
-    top: -8px;
-  }
-
-  .menu-icon::after {
-    bottom: -8px;
-  }
-
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    padding: 6rem 2rem 2rem;
-    opacity: 0;
-    transform: translateY(-1rem);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .mobile-nav-items {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-
-  .mobile-nav-link {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 500;
-    padding: 0.5rem 0;
-    transition: all 0.2s ease;
-  }
-
-  .mobile-nav-link:hover {
-    color: white;
-    transform: translateX(0.5rem);
-  }
-
-  .mobile-nav-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .full-width {
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    .nav-items,
-    .nav-actions {
-      display: none;
-    }
-
-    .mobile-menu-button {
-      display: block;
-    }
-
-    .mobile-menu.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .mobile-menu-button.active .menu-icon {
-      background: transparent;
-    }
-
-    .mobile-menu-button.active .menu-icon::before {
-      transform: rotate(45deg);
-      top: 0;
-    }
-
-    .mobile-menu-button.active .menu-icon::after {
-      transform: rotate(-45deg);
-      bottom: 0;
-    }
-  }
-</style>
-
 <script>
-  // Handle mobile menu toggle
-  const mobileMenuButton = document.querySelector('.mobile-menu-button');
-  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
 
-  mobileMenuButton?.addEventListener('click', () => {
-    mobileMenuButton.classList.toggle('active');
-    mobileMenu?.classList.toggle('active');
-  });
-
-  // Handle transparent navigation
-  const navigation = document.querySelector('.navigation');
-  if (navigation?.classList.contains('navigation--transparent')) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navigation.classList.add('scrolled');
-      } else {
-        navigation.classList.remove('scrolled');
-      }
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
     });
   }
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (event) => {
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+      const isClickInsideMenu = mobileMenu.contains(event.target as Node);
+      const isClickOnButton = mobileMenuButton?.contains(event.target as Node);
+      
+      if (!isClickInsideMenu && !isClickOnButton) {
+        mobileMenu.classList.add('hidden');
+      }
+    }
+  });
 </script>
