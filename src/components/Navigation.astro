@@ -2,9 +2,9 @@
 const { base } = Astro;
 
 const navItems = [
-  { label: 'Home', href: '/rims' },
-  { label: 'Gallery', href: '/rims/gallery-public' },
-  { label: 'Pricing', href: '/rims/pricing' }
+  { label: 'Home', href: `${base}/` },
+  { label: 'Gallery', href: `${base}/gallery-public` },
+  { label: 'Pricing', href: `${base}/pricing` }
 ];
 ---
 
@@ -15,7 +15,7 @@ const navItems = [
     <div class="relative flex items-center justify-between h-16">
       <!-- Logo Section -->
       <div class="flex-shrink-0">
-        <a href="/rims" class="group inline-flex items-center">
+        <a href={`${base}/`} class="group inline-flex items-center">
           <div class="px-3 py-1.5 bg-white text-black border-2 border-black rounded-md shadow-[3px_3px_0px_rgba(0,0,0,1)] transition-all group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
             <span class="font-gothic text-lg font-bold tracking-tight">RIMS AI</span>
           </div>
@@ -37,14 +37,14 @@ const navItems = [
         
         <div class="flex items-center space-x-4">
           <a 
-            href="/rims/login"
+            href={`${base}/login`}
             class="px-3 py-1.5 text-sm font-medium text-white/70 hover:text-white transition-colors 
                    rounded-md hover:bg-white/10"
           >
             Log in
           </a>
           <a 
-            href="/rims/signup"
+            href={`${base}/signup`}
             class="neo-button primary"
           >
             <span class="relative z-10">Start Free Trial</span>
