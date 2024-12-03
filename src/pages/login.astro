@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoginForm from '../components/LoginForm.astro';
+import SocialLogin from '../components/SocialLogin.astro';
+---
+
+<Layout title="Login - WHEELS AI">
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to continue your journey</p>
+    </div>
+    <div class="login-card">
+      <LoginForm />
+      <SocialLogin />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .login-container {
+    padding-top: calc(var(--content-top-padding) + 4rem);
+    max-width: 600px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .subtitle {
+    color: #aaa;
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .login-card {
+    position: relative;
+    background: rgba(28, 28, 34, 0.4);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    box-shadow: 
+      0 4px 6px var(--shadow-soft),
+      0 10px 15px var(--shadow-medium),
+      0 20px 30px var(--shadow-hard);
+    border-radius: 20px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 6px 8px var(--shadow-soft),
+      0 12px 20px var(--shadow-medium),
+      0 25px 40px var(--shadow-hard);
+  }
+
+  @media (max-width: 768px) {
+    .login-container {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+    }
+
+    .login-card {
+      padding: 2rem;
+    }
+  }
+</style>

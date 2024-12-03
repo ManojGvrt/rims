@@ -1,0 +1,214 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['design-form', className]}>
+  <form>
+    <div class="form-group">
+      <label for="design-name">Design Name</label>
+      <input 
+        type="text" 
+        id="design-name" 
+        name="name" 
+        placeholder="Enter a name for your design"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="design-prompt">Design Prompt</label>
+      <textarea 
+        id="design-prompt" 
+        name="prompt" 
+        placeholder="Describe your wheel design in detail..."
+        rows="4"
+        required
+      ></textarea>
+      <p class="prompt-hint">Be specific about style, materials, and any unique features you want in your wheel design.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Style Reference</label>
+      <div class="style-grid">
+        <label class="style-option">
+          <input type="radio" name="style" value="modern" />
+          <div class="style-content">
+            <img src="/styles/modern.jpg" alt="Modern style" />
+            <span>Modern</span>
+          </div>
+        </label>
+        <label class="style-option">
+          <input type="radio" name="style" value="classic" />
+          <div class="style-content">
+            <img src="/styles/classic.jpg" alt="Classic style" />
+            <span>Classic</span>
+          </div>
+        </label>
+        <label class="style-option">
+          <input type="radio" name="style" value="sport" />
+          <div class="style-content">
+            <img src="/styles/sport.jpg" alt="Sport style" />
+            <span>Sport</span>
+          </div>
+        </label>
+        <label class="style-option">
+          <input type="radio" name="style" value="luxury" />
+          <div class="style-content">
+            <img src="/styles/luxury.jpg" alt="Luxury style" />
+            <span>Luxury</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">
+        Generate Design
+        <span class="credit-cost">10 Credits</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .design-form {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  label {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  input[type="text"],
+  textarea {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--secondary-color);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .prompt-hint {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .style-option {
+    cursor: pointer;
+  }
+
+  .style-option input[type="radio"] {
+    display: none;
+  }
+
+  .style-content {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .style-option input[type="radio"]:checked + .style-content {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  .style-content img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .style-content span {
+    display: block;
+    padding: 0.5rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--accent-color) 90%, white);
+  }
+
+  .credit-cost {
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .style-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-actions {
+      justify-content: stretch;
+    }
+
+    .submit-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

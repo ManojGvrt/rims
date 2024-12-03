@@ -1,0 +1,243 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+  method?: 'GET' | 'POST';
+  action?: string;
+}
+
+const {
+  title,
+  description,
+  submitLabel = 'Submit',
+  method = 'POST',
+  action = '#',
+} = Astro.props;
+---
+
+<form class="form" method={method} action={action}>
+  {title && <h2 class="form-title">{title}</h2>}
+  {description && <p class="form-description">{description}</p>}
+  
+  <div class="form-fields">
+    <slot />
+  </div>
+
+  <button type="submit" class="submit-button">
+    {submitLabel}
+  </button>
+</form>
+
+<style>
+  .form {
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin: 0 0 0.5rem;
+  }
+
+  .form-description {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin: 0 0 2rem;
+  }
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .submit-button {
+    width: 100%;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .submit-button:hover {
+    background: color-mix(in srgb, var(--accent-color) 90%, white);
+    transform: translateY(-1px);
+  }
+
+  .submit-button:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .form {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Form Field Styles */
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    background: rgba(245, 245, 240, 0.05);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--secondary-color);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(245, 245, 240, 0.08);
+  }
+
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem;
+  }
+
+  .form-error {
+    color: #f44336;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  .form-hint {
+    color: #aaa;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Checkbox and Radio Styles */
+  .form-checkbox,
+  .form-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+  }
+
+  .form-checkbox input[type="checkbox"],
+  .form-radio input[type="radio"] {
+    appearance: none;
+    background: rgba(245, 245, 240, 0.05);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .form-checkbox input[type="checkbox"] {
+    border-radius: 4px;
+  }
+
+  .form-radio input[type="radio"] {
+    border-radius: 50%;
+  }
+
+  .form-checkbox input[type="checkbox"]:checked,
+  .form-radio input[type="radio"]:checked {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+  .form-checkbox input[type="checkbox"]:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c22' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: 1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .form-radio input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0.3rem;
+    border-radius: 50%;
+    background: var(--primary-color);
+  }
+
+  .form-checkbox-label,
+  .form-radio-label {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    padding-top: 0.15rem;
+  }
+</style>
+
+<script>
+  // Form validation
+  const forms = document.querySelectorAll('.form');
+  
+  forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      const requiredFields = form.querySelectorAll('[required]');
+      let isValid = true;
+
+      requiredFields.forEach(field => {
+        if (!(field as HTMLInputElement).value.trim()) {
+          isValid = false;
+          const fieldContainer = field.closest('.form-field');
+          
+          // Remove existing error message if any
+          const existingError = fieldContainer?.querySelector('.form-error');
+          if (existingError) {
+            existingError.remove();
+          }
+
+          // Add error message
+          const errorMessage = document.createElement('div');
+          errorMessage.className = 'form-error';
+          errorMessage.textContent = 'This field is required';
+          fieldContainer?.appendChild(errorMessage);
+        }
+      });
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>

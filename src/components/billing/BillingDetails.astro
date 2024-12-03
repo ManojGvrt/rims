@@ -1,0 +1,140 @@
+---
+import Button from '../Button.astro';
+
+interface BillingInfo {
+  name: string;
+  email: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+}
+
+interface Props {
+  billingInfo: BillingInfo;
+}
+
+const { billingInfo } = Astro.props;
+---
+
+<div class="billing-info neo-card">
+  <div class="card-header">
+    <h3>Billing Information</h3>
+    <Button variant="secondary" size="small">Edit</Button>
+  </div>
+  <div class="card-content">
+    <div class="billing-details">
+      <div class="billing-section">
+        <h4>Contact Details</h4>
+        <div class="billing-row">
+          <div class="billing-field">
+            <span class="label">Name</span>
+            <span class="value">{billingInfo.name}</span>
+          </div>
+          <div class="billing-field">
+            <span class="label">Email</span>
+            <span class="value">{billingInfo.email}</span>
+          </div>
+        </div>
+      </div>
+      <div class="billing-section">
+        <h4>Billing Address</h4>
+        <div class="billing-row">
+          <div class="billing-field full">
+            <span class="label">Street Address</span>
+            <span class="value">{billingInfo.address.street}</span>
+          </div>
+          <div class="billing-field">
+            <span class="label">City</span>
+            <span class="value">{billingInfo.address.city}</span>
+          </div>
+          <div class="billing-field">
+            <span class="label">State</span>
+            <span class="value">{billingInfo.address.state}</span>
+          </div>
+          <div class="billing-field">
+            <span class="label">ZIP</span>
+            <span class="value">{billingInfo.address.zip}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .billing-info {
+    padding: 2rem;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .billing-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .billing-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .billing-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .billing-field.full {
+    grid-column: 1 / -1;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .value {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .billing-info {
+      padding: 1.5rem;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .billing-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

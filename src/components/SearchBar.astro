@@ -1,0 +1,82 @@
+---
+interface Props {
+  placeholder?: string;
+  onSearch?: string; // Client-side function name to handle search
+}
+
+const { 
+  placeholder = "Search...",
+  onSearch = "handleSearch"
+} = Astro.props;
+---
+
+<div class="search-bar">
+  <input 
+    type="text" 
+    placeholder={placeholder}
+    class="search-input"
+  />
+  <button class="search-button" aria-label="Search">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path 
+        d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: rgba(245, 245, 240, 0.05);
+    border: 2px solid rgba(245, 245, 240, 0.1);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .search-bar:focus-within {
+    border-color: var(--accent-color);
+    background: rgba(245, 245, 240, 0.08);
+  }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .search-input:focus {
+    outline: none;
+  }
+
+  .search-input::placeholder {
+    color: rgba(245, 245, 240, 0.3);
+  }
+
+  .search-button {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .search-bar {
+      width: 100%;
+    }
+  }
+</style>

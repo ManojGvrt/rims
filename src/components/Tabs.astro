@@ -1,0 +1,240 @@
+---
+interface Tab {
+  id: string;
+  label: string;
+  icon?: string;
+  count?: number;
+}
+
+interface Props {
+  tabs: Tab[];
+  activeTab: string;
+  variant?: 'default' | 'pills' | 'underline';
+  size?: 'small' | 'medium' | 'large';
+}
+
+const {
+  tabs,
+  activeTab,
+  variant = 'default',
+  size = 'medium',
+} = Astro.props;
+---
+
+<div class:list={['tabs', `tabs--${variant}`, `tabs--${size}`]}>
+  {tabs.map(tab => (
+    <a
+      href={`#${tab.id}`}
+      class:list={['tab', { active: tab.id === activeTab }]}
+      data-tab={tab.id}
+    >
+      {tab.icon && (
+        <img src={`/icons/${tab.icon}.svg`} alt="" width="20" height="20" />
+      )}
+      <span>{tab.label}</span>
+      {tab.count !== undefined && (
+        <span class="tab-count">{tab.count}</span>
+      )}
+    </a>
+  ))}
+  <div class="tab-highlight"></div>
+</div>
+
+<div class="tab-panels">
+  <slot />
+</div>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  /* Default variant */
+  .tabs--default .tab {
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+  }
+
+  .tabs--default .tab.active {
+    background: rgba(245, 245, 240, 0.05);
+    border-color: rgba(245, 245, 240, 0.1);
+  }
+
+  /* Pills variant */
+  .tabs--pills .tab {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+  }
+
+  .tabs--pills .tab.active {
+    background: var(--accent-color);
+    color: var(--primary-color);
+  }
+
+  /* Underline variant */
+  .tabs--underline {
+    border-bottom: 1px solid rgba(245, 245, 240, 0.1);
+  }
+
+  .tabs--underline .tab {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+  }
+
+  .tabs--underline .tab.active {
+    border-bottom: 2px solid var(--accent-color);
+  }
+
+  /* Size variants */
+  .tabs--small .tab {
+    font-size: 0.875rem;
+  }
+
+  .tabs--large .tab {
+    font-size: 1.125rem;
+  }
+
+  /* Common tab styles */
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .tab:hover {
+    color: var(--accent-color);
+  }
+
+  .tab img {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .tab:hover img,
+  .tab.active img {
+    opacity: 1;
+  }
+
+  .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    background: rgba(245, 245, 240, 0.1);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .tab.active .tab-count {
+    background: rgba(28, 28, 34, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      white-space: nowrap;
+    }
+  }
+</style>
+
+<script>
+  class TabManager {
+    private tabs: HTMLElement;
+    private highlight: HTMLElement | null;
+    private activeTab: HTMLElement | null = null;
+
+    constructor(tabs: HTMLElement) {
+      this.tabs = tabs;
+      this.highlight = tabs.querySelector('.tab-highlight');
+      this.initTabs();
+    }
+
+    private initTabs() {
+      const tabs = this.tabs.querySelectorAll('.tab');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.setActiveTab(tab as HTMLElement);
+        });
+      });
+
+      // Set initial active tab
+      const initialTab = this.tabs.querySelector('.tab.active') as HTMLElement;
+      if (initialTab) {
+        this.setActiveTab(initialTab, false);
+      }
+    }
+
+    private setActiveTab(tab: HTMLElement, updateHash = true) {
+      // Remove active class from previous tab
+      this.activeTab?.classList.remove('active');
+      
+      // Add active class to new tab
+      tab.classList.add('active');
+      this.activeTab = tab;
+
+      // Update URL hash if needed
+      if (updateHash) {
+        const tabId = tab.getAttribute('data-tab');
+        if (tabId) {
+          window.location.hash = tabId;
+        }
+      }
+
+      // Show corresponding panel
+      this.showPanel(tab);
+    }
+
+    private showPanel(tab: HTMLElement) {
+      const tabId = tab.getAttribute('data-tab');
+      const panels = document.querySelectorAll('.tab-panel');
+      
+      panels.forEach(panel => {
+        if (panel.id === tabId) {
+          panel.removeAttribute('hidden');
+        } else {
+          panel.setAttribute('hidden', '');
+        }
+      });
+    }
+  }
+
+  // Initialize all tab components
+  document.querySelectorAll('.tabs').forEach(tabs => {
+    new TabManager(tabs as HTMLElement);
+  });
+
+  // Handle initial hash
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      const tab = document.querySelector(`[data-tab="${hash}"]`);
+      if (tab) {
+        (tab as HTMLElement).click();
+      }
+    }
+  });
+</script>

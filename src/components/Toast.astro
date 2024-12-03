@@ -1,0 +1,234 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  id?: string;
+  type?: 'success' | 'error' | 'warning' | 'info';
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+  duration?: number;
+}
+
+const {
+  id = 'toast',
+  type = 'info',
+  position = 'top-right',
+  duration = 3000,
+} = Astro.props;
+
+const icons = {
+  success: 'check',
+  error: 'close',
+  warning: 'warning',
+  info: 'info',
+} as const;
+---
+
+<div
+  id={id}
+  class:list={['toast', `toast--${type}`, `toast--${position}`]}
+  role="alert"
+  data-duration={duration}
+>
+  <div class="toast-content">
+    <Icon name={icons[type]} size={20} />
+    <div class="toast-message">
+      <slot />
+    </div>
+    <button class="toast-close" aria-label="Close notification">
+      <Icon name="close" size={16} />
+    </button>
+  </div>
+  <div class="toast-progress"></div>
+</div>
+
+<style>
+  .toast {
+    position: fixed;
+    z-index: 1000;
+    max-width: 400px;
+    width: calc(100% - 2rem);
+    padding: 0.25rem;
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.3s ease;
+  }
+
+  .toast[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Positions */
+  .toast--top-right {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .toast--top-left {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .toast--bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .toast--bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .toast-message {
+    flex: 1;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    color: var(--secondary-color);
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .toast-close:hover {
+    opacity: 1;
+  }
+
+  .toast-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(245, 245, 240, 0.1);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+
+  .toast-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    background: var(--progress-color);
+    transition: transform linear;
+  }
+
+  .toast[data-visible="true"] .toast-progress::after {
+    transform: translateX(0%);
+  }
+
+  /* Type-specific styles */
+  .toast--success {
+    --progress-color: #4caf50;
+  }
+
+  .toast--error {
+    --progress-color: #f44336;
+  }
+
+  .toast--warning {
+    --progress-color: #ff9800;
+  }
+
+  .toast--info {
+    --progress-color: var(--accent-color);
+  }
+
+  @media (max-width: 768px) {
+    .toast {
+      width: calc(100% - 1rem);
+      margin: 0 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  class ToastManager {
+    private toasts: Map<string, {
+      element: HTMLElement;
+      timeoutId?: number;
+    }> = new Map();
+
+    constructor() {
+      this.initializeToasts();
+    }
+
+    private initializeToasts() {
+      document.querySelectorAll('.toast').forEach(toast => {
+        const closeButton = toast.querySelector('.toast-close');
+        if (closeButton) {
+          closeButton.addEventListener('click', () => {
+            this.hideToast(toast.id);
+          });
+        }
+      });
+    }
+
+    showToast(id: string, message?: string) {
+      const toast = document.getElementById(id);
+      if (!toast) return;
+
+      // Clear existing timeout
+      if (this.toasts.has(id)) {
+        clearTimeout(this.toasts.get(id)!.timeoutId);
+      }
+
+      // Update message if provided
+      if (message) {
+        const messageEl = toast.querySelector('.toast-message');
+        if (messageEl) messageEl.textContent = message;
+      }
+
+      // Show toast
+      toast.setAttribute('data-visible', 'true');
+      
+      // Set auto-hide timeout
+      const duration = Number(toast.getAttribute('data-duration')) || 3000;
+      const timeoutId = window.setTimeout(() => {
+        this.hideToast(id);
+      }, duration);
+
+      // Store toast reference
+      this.toasts.set(id, {
+        element: toast,
+        timeoutId
+      });
+    }
+
+    hideToast(id: string) {
+      const toast = document.getElementById(id);
+      if (!toast) return;
+
+      toast.setAttribute('data-visible', 'false');
+      
+      // Clear timeout
+      if (this.toasts.has(id)) {
+        clearTimeout(this.toasts.get(id)!.timeoutId);
+        this.toasts.delete(id);
+      }
+    }
+  }
+
+  // Initialize toast manager
+  window.toastManager = new ToastManager();
+</script>

@@ -1,0 +1,110 @@
+---
+import PricingCard from './PricingCard.astro';
+
+interface Feature {
+  text: string;
+  included: boolean;
+}
+
+interface PricingPlan {
+  title: string;
+  price: string;
+  description: string;
+  features: Feature[];
+  ctaText: string;
+  ctaHref: string;
+  popular?: boolean;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  plans: PricingPlan[];
+  class?: string;
+}
+
+const {
+  title,
+  subtitle,
+  plans,
+  class: className = '',
+} = Astro.props;
+---
+
+<section class:list={['pricing', className]}>
+  <div class="container">
+    <h2>{title}</h2>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+    <div class="pricing-grid">
+      {plans.map(plan => (
+        <PricingCard {...plan} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    padding: 6rem 0;
+    background: color-mix(in srgb, var(--primary-color) 98%, var(--accent-color));
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #aaa;
+    font-size: 1.1rem;
+    margin-bottom: 4rem;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .pricing-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pricing {
+      padding: 4rem 0;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>

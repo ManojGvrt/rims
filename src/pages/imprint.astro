@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Imprint - WHEELS AI">
+  <div class="legal-container content-page">
+    <h1>Imprint</h1>
+    
+    <section>
+      <h2>Company Information</h2>
+      <p>WHEELS AI Inc.<br>
+      123 Innovation Drive<br>
+      San Francisco, CA 94105<br>
+      United States</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Email: contact@wheelsai.com<br>
+      Phone: +1 (555) 123-4567<br>
+      Support Hours: Monday - Friday, 9 AM - 6 PM PST</p>
+    </section>
+
+    <section>
+      <h2>Legal Representatives</h2>
+      <p>CEO: Jane Smith<br>
+      CTO: John Doe</p>
+    </section>
+
+    <section>
+      <h2>Registration</h2>
+      <p>Company Registration Number: DE123456789<br>
+      VAT ID: US987654321</p>
+    </section>
+
+    <section>
+      <h2>Regulatory Information</h2>
+      <p>Responsible for content according to § 55 Abs. 2 RStV:<br>
+      Jane Smith<br>
+      WHEELS AI Inc.<br>
+      123 Innovation Drive<br>
+      San Francisco, CA 94105</p>
+    </section>
+
+    <section>
+      <h2>Technical Implementation</h2>
+      <p>Website developed and maintained by WHEELS AI Inc.<br>
+      Hosting Provider: Amazon Web Services (AWS)</p>
+    </section>
+
+    <section>
+      <h2>Dispute Resolution</h2>
+      <p>We are neither willing nor obligated to participate in dispute resolution proceedings before a consumer arbitration board.</p>
+    </section>
+
+    <section class="last-updated">
+      Last updated: January 2024
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .legal-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+    color: var(--secondary-color);
+  }
+
+  section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(245, 245, 240, 0.02);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    border-radius: 12px;
+  }
+
+  p {
+    color: var(--secondary-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  br {
+    content: "";
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .last-updated {
+    text-align: center;
+    color: rgba(245, 245, 240, 0.4);
+    font-size: 0.9rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .legal-container {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    section {
+      padding: 1rem;
+    }
+  }
+</style>

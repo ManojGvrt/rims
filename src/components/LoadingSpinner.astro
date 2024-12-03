@@ -1,0 +1,106 @@
+---
+interface Props {
+  size?: 'small' | 'medium' | 'large';
+  color?: string;
+  fullscreen?: boolean;
+  message?: string;
+}
+
+const {
+  size = 'medium',
+  color = 'var(--accent-color)',
+  fullscreen = false,
+  message
+} = Astro.props;
+
+const sizes = {
+  small: 24,
+  medium: 40,
+  large: 56
+};
+
+const spinnerSize = sizes[size];
+---
+
+<div class:list={['spinner-wrapper', { fullscreen }]}>
+  <div 
+    class:list={['spinner', `spinner--${size}`]}
+    style={`--spinner-color: ${color}`}
+  >
+    <svg 
+      width={spinnerSize} 
+      height={spinnerSize} 
+      viewBox="0 0 38 38" 
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="currentColor"
+    >
+      <g fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)" stroke-width="2">
+          <circle stroke-opacity=".3" cx="18" cy="18" r="18"/>
+          <path d="M36 18c0-9.94-8.06-18-18-18">
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 18 18"
+              to="360 18 18"
+              dur="1s"
+              repeatCount="indefinite"
+            />
+          </path>
+        </g>
+      </g>
+    </svg>
+  </div>
+  {message && <p class="spinner-message">{message}</p>}
+</div>
+
+<style>
+  .spinner-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .spinner-wrapper.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(28, 28, 34, 0.9);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+  }
+
+  .spinner {
+    color: var(--spinner-color);
+    line-height: 0;
+  }
+
+  .spinner--small {
+    transform: scale(0.6);
+  }
+
+  .spinner--medium {
+    transform: scale(1);
+  }
+
+  .spinner--large {
+    transform: scale(1.4);
+  }
+
+  .spinner-message {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinner svg path {
+      animation-duration: 1.5s;
+    }
+  }
+</style>

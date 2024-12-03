@@ -1,0 +1,359 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Features from '../components/Features.astro';
+import Gallery from '../components/Gallery.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+const features = [
+  {
+    title: 'FLUX Pro Model',
+    description: 'Advanced AI model trained on thousands of premium wheel designs',
+    icon: '🤖'
+  },
+  {
+    title: 'Instant Results',
+    description: 'Generate stunning wheel visualizations in seconds',
+    icon: '⚡'
+  },
+  {
+    title: 'High Quality',
+    description: 'Crystal clear images perfect for presentations and social media',
+    icon: '✨'
+  },
+  {
+    title: 'Easy to Use',
+    description: 'No design experience needed - just describe your vision',
+    icon: '🎯'
+  }
+];
+
+const galleryItems = [
+  {
+    image: 'https://images.unsplash.com/photo-1626072778346-0ab6604d39c4',
+    title: 'Sport Design',
+    alt: 'Sport Design Preview'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1532587459811-f057563d1936',
+    title: 'Luxury Style',
+    alt: 'Luxury Style Preview'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537',
+    title: 'Racing Edge',
+    alt: 'Racing Edge Preview'
+  }
+];
+---
+
+<Layout title="RIMS AI - AI-Powered Wheel Visualization">
+  <main>
+    <Header
+      title="RIMS AI"
+      subtitle="Create images of your car with any custom rim in seconds using the latest FLUX Pro model!"
+      showCta={true}
+      ctaText="Start Free Trial"
+      ctaHref="/signup"
+      backgroundImage="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a"
+    />
+
+    <Features
+      title="Why choose RIMS AI"
+      features={features}
+    />
+
+    <Gallery
+      title="Featured Designs"
+      subtitle="Explore what's possible with RIMS AI"
+      items={galleryItems}
+      viewMoreHref="/gallery-public"
+    />
+
+    <CallToAction
+      title="Begin your free trial now"
+      description="Start with 80 free credits today. No credit card required."
+      primaryCta={{
+        label: 'Start Free Trial',
+        href: '/signup'
+      }}
+      variant="highlight"
+    />
+  </main>
+</Layout>
+
+<style>
+  main {
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                      url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-text {
+    max-width: 600px;
+    margin-bottom: 8rem;
+  }
+
+  .hero h1 {
+    font-family: var(--primary-font);
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .neo-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 0;
+  }
+
+  .neo-button.primary {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+  }
+
+  .neo-button.secondary {
+    background: rgba(245, 245, 240, 0.1);
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    backdrop-filter: blur(8px);
+  }
+
+  .neo-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .neo-button.primary:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .neo-button.secondary:hover {
+    background: rgba(245, 245, 240, 0.2);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  /* Features Section */
+  .features {
+    position: relative;
+    z-index: 2;
+    background: var(--primary-color);
+    padding: 6rem 0;
+  }
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-card h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: var(--primary-font);
+  }
+
+  .feature-card p {
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  /* Gallery Preview Section */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+
+  .preview-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: rgba(245, 245, 240, 0.02);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    transition: transform 0.3s ease;
+  }
+
+  .preview-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .preview-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .preview-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--secondary-color);
+  }
+
+  .preview-overlay h3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .view-more {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  /* CTA Section */
+  .cta {
+    padding: 8rem 0;
+  }
+
+  .cta-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .cta-card h2 {
+    margin-bottom: 1rem;
+  }
+
+  .cta-card p {
+    color: #aaa;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+    }
+
+    .features {
+      padding: 4rem 0;
+    }
+
+    .preview-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .hero {
+      height: 100vh;
+      margin-top: -4rem;
+    }
+
+    .hero-content {
+      padding: 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-text {
+      margin-bottom: 4rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+  }
+</style>

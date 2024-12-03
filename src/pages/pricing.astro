@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Pricing from '../components/Pricing.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+const pricingPlans = [
+  {
+    title: 'Free Trial',
+    price: 'Free',
+    description: 'Perfect for trying out WHEELS AI',
+    features: [
+      { text: '80 Free Credits', included: true },
+      { text: 'Basic Wheel Designs', included: true },
+      { text: 'Standard Resolution', included: true },
+      { text: 'Community Support', included: true },
+      { text: 'Priority Generation', included: false },
+      { text: 'Advanced Customization', included: false },
+    ],
+    ctaText: 'Start Free Trial',
+    ctaHref: '/signup'
+  },
+  {
+    title: 'Pro',
+    price: '$49',
+    description: 'For professional designers and enthusiasts',
+    features: [
+      { text: '500 Credits/month', included: true },
+      { text: 'Premium Wheel Designs', included: true },
+      { text: 'High Resolution', included: true },
+      { text: 'Priority Support', included: true },
+      { text: 'Priority Generation', included: true },
+      { text: 'Advanced Customization', included: true },
+    ],
+    ctaText: 'Get Pro',
+    ctaHref: '/signup?plan=pro',
+    popular: true
+  },
+  {
+    title: 'Business',
+    price: '$99',
+    description: 'For high-volume users and agencies',
+    features: [
+      { text: '3500 Credits/month', included: true },
+      { text: 'Premium Wheel Designs', included: true },
+      { text: 'High Resolution', included: true },
+      { text: 'Priority Support', included: true },
+      { text: 'Priority Generation', included: true },
+      { text: 'Advanced Customization', included: true },
+    ],
+    ctaText: 'Get Business',
+    ctaHref: '/signup?plan=business'
+  }
+];
+---
+
+<Layout title="Pricing - WHEELS AI">
+  <main>
+    <Pricing
+      title="Choose Your Plan"
+      subtitle="All plans include access to our FLUX Pro model"
+      plans={pricingPlans}
+    />
+
+    <CallToAction
+      title="Still have questions?"
+      description="Our team is here to help you choose the right plan for your needs."
+      primaryCta={{
+        label: 'Contact Sales',
+        href: '/contact'
+      }}
+      secondaryCta={{
+        label: 'View FAQs',
+        href: '/faq'
+      }}
+      variant="minimal"
+    />
+  </main>
+</Layout>
+
+<style>
+  main {
+    overflow-x: hidden;
+  }
+
+  :global(.price-display) {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 1rem 0;
+  }
+
+  :global(.amount) {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  :global(.period) {
+    color: var(--secondary-color);
+    opacity: 0.8;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    :global(.amount) {
+      font-size: 2.5rem;
+    }
+
+    :global(.period) {
+      font-size: 1rem;
+    }
+  }
+</style>

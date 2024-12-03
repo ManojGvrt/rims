@@ -1,0 +1,347 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Custom wheel designs in seconds">
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link href="/src/styles/globals.css" rel="stylesheet">
+  </head>
+  <body class="min-h-screen bg-background font-gothic tracking-tight antialiased">
+    <div class="relative flex min-h-screen flex-col">
+      
+      <header class="fixed top-0 left-0 right-0 z-50">
+  <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
+  <div class="relative bg-transparent">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="relative flex h-20 items-center justify-between">
+        <!-- Logo Section -->
+        <div class="relative flex-shrink-0 flex items-center z-20">
+          <a href="/" class="group flex items-center space-x-3">
+            <div class="px-3 py-1 bg-white text-black border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <span class="font-gothic text-xl font-bold tracking-tight">RIMS AI</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Navigation and Action Items -->
+        <div class="relative z-20 hidden md:flex items-center space-x-6">
+          <a href="/" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+            Home
+          </a>
+          <a href="/gallery-public" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+            Gallery
+          </a>
+          <a href="/pricing" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+            Pricing
+          </a>
+          <a href="/login" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+            Log in
+          </a>
+          <a href="/signup" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-black bg-white border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            Start Free Trial
+          </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="relative z-20 flex md:hidden">
+          <button type="button" class="inline-flex items-center justify-center rounded-lg p-2.5 text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/10" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="hidden" id="mobile-menu">
+      <div class="space-y-1 px-4 pb-3 pt-2">
+        <a href="/" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Home</a>
+        <a href="/gallery-public" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Gallery</a>
+        <a href="/pricing" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Pricing</a>
+        <div class="mt-4 space-y-3">
+          <a href="/login" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Log in</a>
+          <a href="/signup" class="block w-full px-4 py-3 text-base font-bold text-black bg-white border-2 border-black rounded-md text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+            Start Free Trial
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+          });
+        }
+
+        // Navbar scroll effect
+        const header = document.querySelector('header');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+          if (lastScrollY < window.scrollY) {
+            header.classList.add('backdrop-blur-xl', 'bg-black/5', 'border-b', 'border-white/5');
+          } else {
+            header.classList.remove('backdrop-blur-xl', 'bg-black/5', 'border-b', 'border-white/5');
+          }
+          lastScrollY = window.scrollY;
+        });
+      </script>
+
+      <main class="flex-1">
+        <slot />
+      </main>
+      <footer class="border-t py-6 md:py-0">
+        <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+          <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+            <a href="/terms" class="text-sm hover:text-foreground/80">Terms</a>
+            <a href="/privacy" class="text-sm hover:text-foreground/80">Privacy</a>
+            <a href="/imprint" class="text-sm hover:text-foreground/80">Imprint</a>
+          </div>
+          <p class="text-center text-sm leading-loose text-muted-foreground md:text-left">
+            2024 RimVision. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --navbar-height: 4rem;
+    --content-top-padding: 8rem;
+    --card-top-padding: 12rem;
+    --primary-color: #1c1c22; /* Dark grey with blue tint */
+    --primary-darker: #16161b; /* Slightly darker for gradient */
+    --footer-bg: #0a0a0c;
+    --accent-color: #ff7043; /* Warm orange */
+    --accent-hover: #ffab91; /* Soft peach */
+    --accent-gradient: linear-gradient(135deg, #ff7043, #ffab91);
+    --secondary-color: #f5f5f0; /* Vintage white */
+    --secondary-hover: #e8e8e0; /* Slightly darker vintage white */
+    --text-color: #ffffff;
+    --shadow-soft: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --shadow-hard: rgba(0, 0, 0, 0.4);
+    --shadow-darker: rgba(0, 0, 0, 0.6);
+    --primary-font: 'Dela Gothic One', system-ui;
+    --secondary-font: 'Roboto', sans-serif;
+    --gothic-font: 'Gothic A1', sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--secondary-font);
+    background: var(--primary-color);
+    color: var(--text-color);
+    overflow-y: scroll;
+    overscroll-behavior: none;
+    position: relative;
+  }
+
+  html::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    background: linear-gradient(to bottom, var(--primary-color), var(--primary-darker));
+    position: relative;
+    z-index: 2;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--navbar-height);
+    background: rgba(10, 10, 12, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245, 245, 240, 0.03);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: var(--primary-font);
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+  }
+
+  .nav-link:hover {
+    color: var(--accent-color);
+  }
+
+  .nav-link.trial-link {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    font-weight: 600;
+    border: 1px solid var(--primary-color);
+  }
+
+  .nav-link.trial-link:hover {
+    transform: translateY(-2px);
+    color: var(--primary-color);
+  }
+
+  .nav-link.login {
+    border: 1px solid var(--secondary-color);
+  }
+
+  .nav-link.login:hover {
+    border-color: var(--accent-color);
+  }
+
+  footer {
+    background: var(--footer-bg);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid rgba(245, 245, 240, 0.03);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links a {
+    color: rgba(245, 245, 240, 0.6);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent-color);
+  }
+
+  .copyright {
+    text-align: center;
+    color: rgba(245, 245, 240, 0.4);
+    font-size: 0.85rem;
+  }
+
+  .neo-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.8rem 2rem;
+    border: 3px solid black;
+    box-shadow: 4px 4px 0 black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .neo-button:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 black;
+  }
+
+  a {
+    color: var(--secondary-color);
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: var(--accent-color);
+  }
+
+  .content-page {
+    padding-top: calc(var(--navbar-height) + var(--content-top-padding));
+  }
+
+  .card-page {
+    padding-top: var(--card-top-padding);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--gothic-font) !important;
+    font-weight: 800 !important;
+  }
+</style>

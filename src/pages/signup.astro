@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SignupForm from '../components/SignupForm.astro';
+import SocialLogin from '../components/SocialLogin.astro';
+---
+
+<Layout title="Sign Up - WHEELS AI">
+  <div class="signup-container">
+    <div class="signup-header">
+      <h1>Create Account</h1>
+      <p class="subtitle">Join WHEELS AI and start creating amazing wheel designs</p>
+    </div>
+    <div class="signup-card">
+      <SignupForm />
+      <SocialLogin />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .signup-container {
+    padding-top: calc(var(--content-top-padding) + 4rem);
+    max-width: 600px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .signup-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .subtitle {
+    color: #aaa;
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .signup-card {
+    position: relative;
+    background: rgba(28, 28, 34, 0.4);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    box-shadow: 
+      0 4px 6px var(--shadow-soft),
+      0 10px 15px var(--shadow-medium),
+      0 20px 30px var(--shadow-hard);
+    border-radius: 20px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .signup-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 6px 8px var(--shadow-soft),
+      0 12px 20px var(--shadow-medium),
+      0 25px 40px var(--shadow-hard);
+  }
+
+  @media (max-width: 768px) {
+    .signup-container {
+      padding-top: calc(var(--content-top-padding) + 2rem);
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .signup-header {
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .signup-card {
+      padding: 1.5rem;
+    }
+  }
+</style>

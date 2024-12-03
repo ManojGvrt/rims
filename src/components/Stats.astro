@@ -1,0 +1,154 @@
+---
+interface Stat {
+  label: string;
+  value: string | number;
+  change?: {
+    value: number;
+    type: 'increase' | 'decrease';
+  };
+  icon?: string;
+}
+
+interface Props {
+  stats: Stat[];
+  columns?: 2 | 3 | 4;
+}
+
+const { stats, columns = 4 } = Astro.props;
+---
+
+<div class:list={['stats-grid', `stats-grid--${columns}`]}>
+  {stats.map(stat => (
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-label">{stat.label}</span>
+        {stat.icon && (
+          <div class="stat-icon">
+            <img src={`/icons/${stat.icon}.svg`} alt="" width="20" height="20" />
+          </div>
+        )}
+      </div>
+
+      <div class="stat-content">
+        <div class="stat-value">{stat.value}</div>
+        {stat.change && (
+          <div class:list={[
+            'stat-change',
+            `stat-change--${stat.change.type}`
+          ]}>
+            {stat.change.type === 'increase' ? '↑' : '↓'}
+            {Math.abs(stat.change.value)}%
+          </div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stats-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .stats-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stats-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-card {
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .stat-card:hover {
+    background: rgba(245, 245, 240, 0.02);
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .stat-label {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(245, 245, 240, 0.05);
+  }
+
+  .stat-icon img {
+    opacity: 0.7;
+  }
+
+  .stat-content {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .stat-value {
+    color: var(--secondary-color);
+    font-size: 1.75rem;
+    font-weight: 600;
+    font-family: var(--primary-font);
+  }
+
+  .stat-change {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  .stat-change--increase {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+  }
+
+  .stat-change--decrease {
+    color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    .stats-grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid--3,
+    .stats-grid--4 {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+      padding: 1.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+    }
+  }
+</style>

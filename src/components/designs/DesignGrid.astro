@@ -1,0 +1,172 @@
+---
+interface Design {
+  id: string;
+  name: string;
+  thumbnail: string;
+  createdAt: Date;
+  status: 'completed' | 'processing' | 'failed';
+}
+
+interface Props {
+  designs: Design[];
+  class?: string;
+}
+
+const { designs, class: className = '' } = Astro.props;
+---
+
+<div class:list={['design-grid', className]}>
+  {designs.map(design => (
+    <a href={`/designs/${design.id}`} class="design-card">
+      <div class="design-thumbnail">
+        <img src={design.thumbnail} alt={design.name} loading="lazy" />
+        {design.status === 'processing' && (
+          <div class="processing-overlay">
+            <div class="spinner"></div>
+            <span>Processing...</span>
+          </div>
+        )}
+        {design.status === 'failed' && (
+          <div class="failed-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <span>Failed</span>
+          </div>
+        )}
+      </div>
+      <div class="design-info">
+        <h3>{design.name}</h3>
+        <p>{design.createdAt.toLocaleDateString()}</p>
+      </div>
+    </a>
+  ))}
+  <a href="/new-design" class="new-design-card">
+    <div class="new-design-content">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span>New Design</span>
+    </div>
+  </a>
+</div>
+
+<style>
+  .design-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .design-card, .new-design-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .design-card:hover, .new-design-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+  }
+
+  .design-thumbnail {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+
+  .design-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .processing-overlay, .failed-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--secondary-color);
+  }
+
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid transparent;
+    border-top-color: var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .failed-overlay {
+    color: #ff4444;
+  }
+
+  .design-info {
+    padding: 1rem;
+  }
+
+  .design-info h3 {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .design-info p {
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .new-design-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border-style: dashed;
+  }
+
+  .new-design-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--accent-color);
+  }
+
+  .new-design-content span {
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .design-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .design-info {
+      padding: 0.75rem;
+    }
+
+    .new-design-card {
+      min-height: 160px;
+    }
+  }
+</style>

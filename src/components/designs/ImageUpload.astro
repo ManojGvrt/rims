@@ -1,0 +1,194 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  required?: boolean;
+  class?: string;
+}
+
+const { id, label, required = false, class: className = '' } = Astro.props;
+---
+
+<div class:list={['upload-container', className]} id={id + '-upload'}>
+  <input 
+    type="file" 
+    id={id} 
+    name={id}
+    accept="image/*" 
+    class="file-input" 
+    required={required}
+  />
+  <div class="upload-content">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path 
+        d="M21 19H3V5h18m0 14l-8-7-4 3-4-3" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+      />
+    </svg>
+    <div class="upload-text">
+      <span class="primary-text">Drop your {label} here</span>
+      <span class="secondary-text">or click to browse</span>
+    </div>
+    <span class="file-info">PNG, JPG or WEBP (max. 10MB)</span>
+  </div>
+  <div class="upload-preview" style="display: none;">
+    <img src="" alt={label + " preview"} id={id + "-preview"} />
+    <button type="button" class="remove-image" data-target={id + "-upload"}>×</button>
+  </div>
+</div>
+
+<style>
+  .upload-container {
+    position: relative;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .upload-container:hover {
+    border-color: var(--accent-color);
+  }
+
+  .upload-container.dragover {
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--secondary-color);
+  }
+
+  .upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .primary-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .secondary-text {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .file-info {
+    font-size: 0.85rem;
+    opacity: 0.5;
+  }
+
+  .upload-preview {
+    position: relative;
+    margin-top: 1rem;
+  }
+
+  .upload-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+  }
+
+  .remove-image {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .remove-image:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .upload-container {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  function handleFileSelect(event, previewId) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const preview = document.getElementById(previewId);
+        const previewContainer = preview.parentElement;
+        preview.src = e.target.result;
+        previewContainer.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('dragover');
+  }
+
+  function handleDragLeave(event) {
+    event.preventDefault();
+    event.currentTarget.classList.remove('dragover');
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    event.currentTarget.classList.remove('dragover');
+    const fileInput = event.currentTarget.querySelector('.file-input');
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInput.files = dataTransfer.files;
+      fileInput.dispatchEvent(new Event('change'));
+    }
+  }
+
+  document.querySelectorAll('.upload-container').forEach(container => {
+    const fileInput = container.querySelector('.file-input');
+    const previewId = fileInput.id + '-preview';
+    
+    fileInput.addEventListener('change', (e) => handleFileSelect(e, previewId));
+    container.addEventListener('dragover', handleDragOver);
+    container.addEventListener('dragleave', handleDragLeave);
+    container.addEventListener('drop', handleDrop);
+
+    const removeButton = container.querySelector('.remove-image');
+    if (removeButton) {
+      removeButton.addEventListener('click', () => {
+        fileInput.value = '';
+        const previewContainer = container.querySelector('.upload-preview');
+        previewContainer.style.display = 'none';
+      });
+    }
+  });
+</script>

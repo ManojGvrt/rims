@@ -1,0 +1,266 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const plans = [
+  {
+    id: "starter",
+    name: "Starter",
+    credits: 5,
+    price: 0,
+    features: ["5 wheel visualizations", "Basic wheel catalog"]
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    credits: 100,
+    price: 29,
+    features: ["100 visualizations", "Full catalog", "HD resolution"]
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    credits: "Unlimited",
+    price: "Custom",
+    features: ["White-label solution", "API access", "Custom integrations"]
+  }
+];
+---
+
+<Layout title="Checkout - WHEELS AI">
+  <main>
+    <div class="checkout-container">
+      <div class="checkout-content">
+        <h1>Choose your plan</h1>
+        <p class="subtitle">Select the plan that works best for you</p>
+
+        <div class="checkout-grid">
+          <div class="plans-section">
+            {plans.map((plan) => (
+              <div class="plan-card" data-plan={plan.id}>
+                <div class="plan-header">
+                  <h3>{plan.name}</h3>
+                  <div class="plan-price">
+                    {typeof plan.price === 'number' ? 
+                      <>${plan.price}</> : 
+                      plan.price
+                    }
+                  </div>
+                  <div class="plan-credits">{plan.credits} Credits</div>
+                </div>
+                <ul class="plan-features">
+                  {plan.features.map((feature) => (
+                    <li>{feature}</li>
+                  ))}
+                </ul>
+                <button 
+                  class="neo-button select-plan"
+                  data-plan-id={plan.id}
+                  data-plan-name={plan.name}
+                  data-plan-price={plan.price}
+                >
+                  {plan.id === 'enterprise' ? 'Contact Sales' : 'Select Plan'}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div id="stripe-container" class="payment-container">
+            <h2>Complete Purchase</h2>
+            <div class="selected-plan-info">
+              <h3>Selected Plan: <span id="selected-plan-name">Pro</span></h3>
+              <p>Total: $<span id="selected-plan-price">29</span></p>
+            </div>
+            <div class="stripe-placeholder">
+              <p>Stripe payment form will be integrated here</p>
+              <div id="stripe-elements"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Handle plan selection
+  document.querySelectorAll('.select-plan').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const target = e.target as HTMLButtonElement;
+      const planId = target.dataset.planId;
+      
+      if (planId === 'enterprise') {
+        window.location.href = '/contact';
+        return;
+      }
+
+      if (planId === 'starter') {
+        window.location.href = '/signup';
+        return;
+      }
+
+      // Update selected plan info
+      const planName = target.dataset.planName;
+      const planPrice = target.dataset.planPrice;
+      
+      document.getElementById('selected-plan-name')!.textContent = planName || '';
+      document.getElementById('selected-plan-price')!.textContent = planPrice || '';
+
+      // Show payment container
+      document.getElementById('stripe-container')!.style.display = 'block';
+
+      // Highlight selected plan
+      document.querySelectorAll('.plan-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      (target.closest('.plan-card') as HTMLElement).classList.add('selected');
+    });
+  });
+</script>
+
+<style>
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .checkout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .checkout-content {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 1000px;
+  }
+
+  .plans-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .plan-card {
+    background: #ffffff0d;
+    padding: 1.5rem;
+    border: 2px solid black;
+    box-shadow: 4px 4px 0 black;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .plan-card:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 black;
+  }
+
+  .plan-card.selected {
+    border-color: var(--accent-color);
+    box-shadow: 4px 4px 0 var(--accent-color);
+  }
+
+  .plan-header {
+    margin-bottom: 1rem;
+  }
+
+  .plan-header h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--primary-font);
+  }
+
+  .plan-price {
+    font-size: 1.8rem;
+    font-family: var(--primary-font);
+    color: var(--accent-color);
+  }
+
+  .plan-credits {
+    color: #888;
+    font-size: 0.9rem;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  .plan-features li {
+    margin: 0.5rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .plan-features li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+  }
+
+  .neo-button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .payment-container {
+    background: #ffffff0d;
+    padding: 2rem;
+    border: 3px solid black;
+    box-shadow: 8px 8px 0 black;
+    text-align: left;
+    height: fit-content;
+  }
+
+  .payment-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--primary-font);
+  }
+
+  .selected-plan-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 2px solid var(--accent-color);
+  }
+
+  .selected-plan-info h3 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .stripe-placeholder {
+    padding: 1.5rem;
+    border: 2px dashed #444;
+    text-align: center;
+    color: #888;
+  }
+
+  @media (max-width: 768px) {
+    .checkout-grid {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

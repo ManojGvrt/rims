@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BillingHeader from '../components/billing/BillingHeader.astro';
+import CreditStatus from '../components/billing/CreditStatus.astro';
+import CreditHistory from '../components/billing/CreditHistory.astro';
+import PaymentMethod from '../components/billing/PaymentMethod.astro';
+import BillingDetails from '../components/billing/BillingDetails.astro';
+import SubscriptionInfo from '../components/billing/SubscriptionInfo.astro';
+
+const creditHistory = [
+  {
+    title: 'Design Generation',
+    date: 'May 15, 2024',
+    amount: -5
+  },
+  {
+    title: 'Free Trial Credits',
+    date: 'May 14, 2024',
+    amount: 80
+  }
+];
+
+const cards = [
+  {
+    last4: '4242',
+    expiry: '12/25',
+    isDefault: true
+  }
+];
+
+const billingInfo = {
+  name: 'John Smith',
+  email: 'john@example.com',
+  address: {
+    street: '123 Main St',
+    city: 'San Francisco',
+    state: 'CA',
+    zip: '94105'
+  }
+};
+
+const currentPlan = {
+  name: 'Pro Plan',
+  price: '$49/month',
+  features: [
+    { text: '500 credits/month' },
+    { text: 'Priority Support' },
+    { text: 'Advanced Features' }
+  ]
+};
+---
+
+<Layout title="Billing | RIMS AI">
+  <div class="billing-container">
+    <BillingHeader />
+    
+    <div class="billing-content">
+      <section class="credits-section">
+        <div class="section-grid">
+          <CreditStatus credits={80} />
+          <CreditHistory history={creditHistory} />
+        </div>
+      </section>
+
+      <section class="subscription-section">
+        <div class="section-grid">
+          <SubscriptionInfo
+            currentPlan={currentPlan}
+            nextRenewal="Dec 25, 2023"
+            autoRenew={true}
+          />
+        </div>
+      </section>
+
+      <section class="payment-section">
+        <div class="section-grid">
+          <PaymentMethod cards={cards} />
+          <BillingDetails billingInfo={billingInfo} />
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .billing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .billing-content {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  section {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(245, 245, 240, 0.1);
+  }
+
+  section:last-child {
+    border-bottom: none;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .billing-container {
+      padding: 1rem;
+    }
+
+    .section-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

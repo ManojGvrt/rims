@@ -1,0 +1,203 @@
+---
+interface Column {
+  key: string;
+  label: string;
+  align?: 'left' | 'center' | 'right';
+  width?: string;
+}
+
+interface Props {
+  columns: Column[];
+  data: Record<string, any>[];
+  interactive?: boolean;
+  compact?: boolean;
+  loading?: boolean;
+  emptyState?: {
+    title: string;
+    description?: string;
+  };
+}
+
+const {
+  columns,
+  data,
+  interactive = false,
+  compact = false,
+  loading = false,
+  emptyState,
+} = Astro.props;
+---
+
+<div class:list={[
+  'table-container',
+  { 'table--interactive': interactive, 'table--compact': compact }
+]}>
+  <table>
+    <thead>
+      <tr>
+        {columns.map(column => (
+          <th 
+            style={column.width ? `width: ${column.width}` : undefined}
+            class={column.align ? `text-${column.align}` : undefined}
+          >
+            {column.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+
+    <tbody>
+      {loading ? (
+        <tr class="loading-row">
+          <td colspan={columns.length}>
+            <div class="loading-content">
+              <div class="loading-spinner"></div>
+              <span>Loading...</span>
+            </div>
+          </td>
+        </tr>
+      ) : data.length === 0 && emptyState ? (
+        <tr class="empty-row">
+          <td colspan={columns.length}>
+            <div class="empty-content">
+              <h4>{emptyState.title}</h4>
+              {emptyState.description && <p>{emptyState.description}</p>}
+            </div>
+          </td>
+        </tr>
+      ) : (
+        data.map(row => (
+          <tr>
+            {columns.map(column => (
+              <td class={column.align ? `text-${column.align}` : undefined}>
+                <slot name={`cell-${column.key}`} row={row}>
+                  {row[column.key]}
+                </slot>
+              </td>
+            ))}
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  th {
+    background: rgba(245, 245, 240, 0.02);
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(245, 245, 240, 0.1);
+  }
+
+  td {
+    padding: 1rem;
+    color: #aaa;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(245, 245, 240, 0.1);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Text alignment */
+  .text-left {
+    text-align: left;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  /* Interactive table */
+  .table--interactive tbody tr {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .table--interactive tbody tr:hover {
+    background: rgba(245, 245, 240, 0.02);
+  }
+
+  /* Compact table */
+  .table--compact th,
+  .table--compact td {
+    padding: 0.75rem 1rem;
+  }
+
+  /* Loading state */
+  .loading-row td {
+    padding: 3rem 1rem;
+  }
+
+  .loading-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--secondary-color);
+  }
+
+  .loading-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid rgba(245, 245, 240, 0.1);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Empty state */
+  .empty-row td {
+    padding: 3rem 1rem;
+  }
+
+  .empty-content {
+    text-align: center;
+  }
+
+  .empty-content h4 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .empty-content p {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .table-container {
+      border-radius: 8px;
+    }
+  }
+</style>

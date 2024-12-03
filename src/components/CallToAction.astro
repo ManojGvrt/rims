@@ -1,0 +1,134 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  primaryCta: {
+    label: string;
+    href: string;
+  };
+  secondaryCta?: {
+    label: string;
+    href: string;
+  };
+  variant?: 'default' | 'highlight' | 'minimal';
+  align?: 'left' | 'center';
+}
+
+const {
+  title,
+  description,
+  primaryCta,
+  secondaryCta,
+  variant = 'default',
+  align = 'center',
+} = Astro.props;
+---
+
+<section class:list={['cta', `cta--${variant}`, `cta--${align}`]}>
+  <div class="container">
+    <div class="cta-card">
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+      <a href={primaryCta.href} class="neo-button primary">{primaryCta.label}</a>
+      {secondaryCta && (
+        <a href={secondaryCta.href} class="neo-button secondary">{secondaryCta.label}</a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding: 8rem 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .cta-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  p {
+    color: #aaa;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .neo-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 0;
+    margin: 0 0.5rem;
+  }
+
+  .neo-button.primary {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+  }
+
+  .neo-button.secondary {
+    background: rgba(245, 245, 240, 0.1);
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    backdrop-filter: blur(8px);
+  }
+
+  .neo-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .neo-button.primary:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .neo-button.secondary:hover {
+    background: rgba(245, 245, 240, 0.2);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  @media (max-width: 768px) {
+    .cta {
+      padding: 4rem 0;
+    }
+
+    .cta-card {
+      padding: 3rem 1.5rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+</style>

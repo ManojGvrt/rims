@@ -1,0 +1,115 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  disabled?: boolean;
+}
+
+const {
+  variant = 'primary',
+  size = 'medium',
+  href,
+  type = 'button',
+  class: className = '',
+  disabled = false,
+} = Astro.props;
+
+const Element = href ? 'a' : 'button';
+---
+
+<Element
+  href={href}
+  type={!href ? type : undefined}
+  class:list={[
+    'neo-button',
+    `neo-button--${variant}`,
+    `neo-button--${size}`,
+    className,
+  ]}
+  disabled={disabled}
+>
+  <slot />
+</Element>
+
+<style>
+  .neo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: var(--primary-font);
+  }
+
+  .neo-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Variants */
+  .neo-button--primary {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .neo-button--secondary {
+    background: transparent;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+  }
+
+  .neo-button--danger {
+    background: transparent;
+    border-color: #ff4444;
+    color: #ff4444;
+  }
+
+  /* Sizes */
+  .neo-button--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .neo-button--medium {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .neo-button--large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+
+  /* Hover States */
+  .neo-button:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+
+  .neo-button--primary:not(:disabled):hover {
+    box-shadow: 0 4px 8px rgba(255, 112, 67, 0.2);
+  }
+
+  .neo-button--secondary:not(:disabled):hover {
+    background: rgba(245, 245, 240, 0.05);
+  }
+
+  .neo-button--danger:not(:disabled):hover {
+    background: rgba(255, 68, 68, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .neo-button {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,125 @@
+---
+interface Props {
+  totalDesigns: number;
+  class?: string;
+}
+
+const { totalDesigns, class: className = '' } = Astro.props;
+---
+
+<div class:list={['design-toolbar', className]}>
+  <div class="toolbar-left">
+    <h1>My Designs ({totalDesigns})</h1>
+  </div>
+  <div class="toolbar-right">
+    <div class="search-bar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" placeholder="Search designs..." />
+    </div>
+    <button class="new-design-btn" onclick="window.location.href='/new-design'">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      New Design
+    </button>
+  </div>
+</div>
+
+<style>
+  .design-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .toolbar-left h1 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+  }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    min-width: 240px;
+  }
+
+  .search-bar svg {
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .search-bar input {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  .search-bar input:focus {
+    outline: none;
+  }
+
+  .search-bar input::placeholder {
+    color: var(--secondary-color);
+    opacity: 0.5;
+  }
+
+  .new-design-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .new-design-btn:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--accent-color) 90%, white);
+  }
+
+  @media (max-width: 768px) {
+    .design-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .toolbar-right {
+      flex-direction: column;
+    }
+
+    .search-bar {
+      width: 100%;
+      min-width: unset;
+    }
+
+    .new-design-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

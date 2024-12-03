@@ -1,0 +1,159 @@
+---
+interface CreditPackage {
+  id: string;
+  credits: number;
+  price: number;
+  popular?: boolean;
+}
+
+interface Props {
+  packages: CreditPackage[];
+  class?: string;
+}
+
+const { packages, class: className = '' } = Astro.props;
+---
+
+<div class:list={['credit-packages', className]}>
+  <div class="packages-grid">
+    {packages.map(pkg => (
+      <div class:list={['package-card', { popular: pkg.popular }]}>
+        {pkg.popular && <div class="popular-badge">Most Popular</div>}
+        <div class="package-content">
+          <div class="package-credits">
+            <span class="credits-amount">{pkg.credits}</span>
+            <span class="credits-label">Credits</span>
+          </div>
+          <div class="package-price">
+            <span class="price-amount">${pkg.price}</span>
+            <span class="price-per">USD</span>
+          </div>
+          <div class="price-calculation">
+            ${(pkg.price / pkg.credits).toFixed(2)} per credit
+          </div>
+          <button class="purchase-btn" data-package-id={pkg.id}>
+            Purchase
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+  }
+
+  .package-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s ease;
+  }
+
+  .package-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+  }
+
+  .package-card.popular {
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .package-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .package-credits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .credits-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    font-family: var(--primary-font);
+  }
+
+  .credits-label {
+    color: var(--secondary-color);
+    opacity: 0.7;
+    font-size: 1.1rem;
+  }
+
+  .package-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+  }
+
+  .price-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+
+  .price-per {
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .price-calculation {
+    color: var(--secondary-color);
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+
+  .purchase-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .purchase-btn:hover {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--accent-color) 90%, white);
+  }
+
+  @media (max-width: 768px) {
+    .packages-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .package-card {
+      padding: 1.5rem;
+    }
+  }
+</style>

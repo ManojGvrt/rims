@@ -1,0 +1,322 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Dashboard - WHEELS AI">
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Welcome back, let's create something amazing</p>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Quick Stats -->
+      <div class="stats-card neo-card">
+        <h2>Your Stats</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-value">80</span>
+            <span class="stat-label">Credits Left</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Designs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">48</span>
+            <span class="stat-label">Renders</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="actions-card neo-card">
+        <h2>Quick Actions</h2>
+        <div class="actions-grid">
+          <a href="/new-design" class="neo-button primary">
+            New Design
+          </a>
+          <a href="/billing" class="neo-button secondary">
+            Get Credits
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Designs -->
+      <div class="projects-card neo-card">
+        <div class="card-header">
+          <h2>Recent Designs</h2>
+          <a href="/designs" class="view-all">View All</a>
+        </div>
+        <div class="projects-grid">
+          {[1, 2, 3].map(() => (
+            <div class="project-item">
+              <div class="project-preview"></div>
+              <div class="project-info">
+                <h3>Design Name</h3>
+                <p>Last edited 2 days ago</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="activity-card neo-card">
+        <h2>Recent Activity</h2>
+        <div class="activity-list">
+          {[1, 2, 3, 4].map(() => (
+            <div class="activity-item">
+              <div class="activity-icon">●</div>
+              <div class="activity-content">
+                <p class="activity-text">Generated new wheel design</p>
+                <span class="activity-time">2 hours ago</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .dashboard-container {
+    padding-top: var(--content-top-padding);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .subtitle {
+    color: #aaa;
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .neo-card {
+    position: relative;
+    background: rgba(28, 28, 34, 0.4);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    box-shadow: 
+      0 4px 6px var(--shadow-soft),
+      0 10px 15px var(--shadow-medium);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .neo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 8px var(--shadow-soft),
+      0 12px 20px var(--shadow-medium);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    font-family: var(--primary-font);
+  }
+
+  /* Stats Card */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+  }
+
+  /* Actions Card */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .neo-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: 3px solid black;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: var(--primary-font);
+  }
+
+  .neo-button.primary {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .neo-button.secondary {
+    background: transparent;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+  }
+
+  .neo-button:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Projects Card */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .view-all {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .view-all:hover {
+    color: var(--accent-hover);
+  }
+
+  .projects-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .project-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(245, 245, 240, 0.05);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+
+  .project-item:hover {
+    background: rgba(245, 245, 240, 0.08);
+  }
+
+  .project-preview {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    border-radius: 8px;
+  }
+
+  .project-info h3 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .project-info p {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  /* Activity Card */
+  .activity-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .activity-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .activity-icon {
+    color: var(--accent-color);
+    font-size: 0.5rem;
+  }
+
+  .activity-content {
+    flex: 1;
+  }
+
+  .activity-text {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .activity-time {
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 1024px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .actions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

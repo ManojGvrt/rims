@@ -1,0 +1,160 @@
+---
+interface DropdownItem {
+  label: string;
+  value: string;
+  href?: string;
+  danger?: boolean;
+  icon?: string;
+}
+
+interface Props {
+  items: DropdownItem[];
+  trigger?: 'hover' | 'click';
+  position?: 'left' | 'right';
+  class?: string;
+}
+
+const {
+  items,
+  trigger = 'hover',
+  position = 'right',
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['dropdown', `dropdown--${trigger}`, `dropdown--${position}`, className]}>
+  <button class="dropdown-trigger" type="button" aria-haspopup="true">
+    <slot name="trigger">•••</slot>
+  </button>
+  <div class="dropdown-content">
+    {items.map(item => (
+      item.href ? (
+        <a 
+          href={item.href}
+          class:list={['dropdown-item', { 'text-danger': item.danger }]}
+          data-value={item.value}
+        >
+          {item.icon && <span class="item-icon" set:html={item.icon} />}
+          {item.label}
+        </a>
+      ) : (
+        <button 
+          type="button"
+          class:list={['dropdown-item', { 'text-danger': item.danger }]}
+          data-value={item.value}
+        >
+          {item.icon && <span class="item-icon" set:html={item.icon} />}
+          {item.label}
+        </button>
+      )
+    ))}
+  </div>
+</div>
+
+<style>
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-trigger {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dropdown-content {
+    position: absolute;
+    top: 100%;
+    min-width: 160px;
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+  }
+
+  .dropdown--right .dropdown-content {
+    right: 0;
+  }
+
+  .dropdown--left .dropdown-content {
+    left: 0;
+  }
+
+  .dropdown--hover:hover .dropdown-content,
+  .dropdown--click[data-open="true"] .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-item:hover {
+    background: rgba(245, 245, 240, 0.05);
+  }
+
+  .dropdown-item.text-danger {
+    color: #ff4444;
+  }
+
+  .dropdown-item.text-danger:hover {
+    background: rgba(255, 68, 68, 0.1);
+  }
+
+  .item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+</style>
+
+<script>
+  // Only initialize click handlers if trigger is click
+  const dropdowns = document.querySelectorAll('.dropdown--click');
+  
+  dropdowns.forEach(dropdown => {
+    const trigger = dropdown.querySelector('.dropdown-trigger');
+    
+    trigger?.addEventListener('click', () => {
+      const isOpen = dropdown.getAttribute('data-open') === 'true';
+      dropdown.setAttribute('data-open', (!isOpen).toString());
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target as Node)) {
+        dropdown.setAttribute('data-open', 'false');
+      }
+    });
+  });
+</script>

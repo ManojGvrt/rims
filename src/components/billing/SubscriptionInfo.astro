@@ -1,0 +1,211 @@
+---
+import Button from '../Button.astro';
+
+interface PlanFeature {
+  text: string;
+}
+
+interface Plan {
+  name: string;
+  price: string;
+  features: PlanFeature[];
+}
+
+interface Props {
+  currentPlan: Plan;
+  nextRenewal: string;
+  autoRenew: boolean;
+}
+
+const { currentPlan, nextRenewal, autoRenew } = Astro.props;
+---
+
+<div class="subscription neo-card">
+  <div class="card-header">
+    <h3>Subscription</h3>
+    <label class="switch">
+      <input type="checkbox" checked={autoRenew}>
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="card-content">
+    <div class="subscription-details">
+      <div class="plan-info">
+        <h4>Current Plan</h4>
+        <div class="plan-row">
+          <span class="plan-name">{currentPlan.name}</span>
+          <span class="plan-price">{currentPlan.price}</span>
+        </div>
+        <div class="plan-features">
+          {currentPlan.features.map(feature => (
+            <span class="feature">{feature.text}</span>
+          ))}
+        </div>
+      </div>
+      <div class="renewal-info">
+        <div class="renewal-row">
+          <span class="label">Next Renewal</span>
+          <span class="value">{nextRenewal}</span>
+        </div>
+        <div class="renewal-row">
+          <span class="label">Auto-renew</span>
+          <span class={`value ${autoRenew ? 'active' : ''}`}>
+            {autoRenew ? 'Enabled' : 'Disabled'}
+          </span>
+        </div>
+      </div>
+      <Button variant="primary" class="full-width">Change Plan</Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .subscription {
+    padding: 2rem;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .subscription-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .plan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .plan-name {
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  .plan-price {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .plan-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature {
+    color: var(--secondary-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .renewal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .renewal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .value {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+
+  .value.active {
+    color: #44ff44;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.4s;
+    border-radius: 24px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--secondary-color);
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: var(--accent-color);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(24px);
+    background-color: var(--primary-color);
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .subscription {
+      padding: 1.5rem;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>

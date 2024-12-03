@@ -1,0 +1,229 @@
+---
+import GalleryImage from './GalleryImage.astro';
+import Button from './Button.astro';
+
+interface Props {
+  design: {
+    id: number;
+    title: string;
+    image: string;
+    favorite: boolean;
+    lastEdited: string;
+    renders: number;
+    variations: number;
+  };
+}
+
+const { design } = Astro.props;
+---
+
+<div class="design-card neo-card">
+  <div class="design-preview">
+    <GalleryImage
+      src={design.image}
+      alt={design.title}
+      title={design.title}
+      loading={design.id <= 2 ? "eager" : "lazy"}
+    />
+    <div class="design-overlay">
+      <Button variant="secondary" size="small">View</Button>
+    </div>
+  </div>
+  <div class="design-info">
+    <div class="design-header">
+      <h3>{design.title}</h3>
+      <div class="design-actions">
+        <button 
+          class="favorite-button" 
+          aria-label="Favorite design"
+          data-favorited={design.favorite}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill={design.favorite ? "currentColor" : "none"}>
+            <path 
+              d="M10 1.66667L12.575 6.88334L18.3333 7.725L14.1667 11.7833L15.15 17.5167L10 14.8083L4.85 17.5167L5.83333 11.7833L1.66667 7.725L7.425 6.88334L10 1.66667Z" 
+              stroke="currentColor" 
+              stroke-width="1.5" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <div class="design-menu">
+          <button class="menu-button" aria-label="More options">•••</button>
+          <div class="menu-dropdown">
+            <a href={`/designs/${design.id}/edit`}>Edit</a>
+            <a href="#" data-action="duplicate">Duplicate</a>
+            <a href="#" data-action="rename">Rename</a>
+            <a href="#" data-action="delete" class="text-danger">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="design-date">Last edited {design.lastEdited}</p>
+    <div class="design-stats">
+      <span>{design.renders} Renders</span>
+      <span>•</span>
+      <span>{design.variations} Variations</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .design-card {
+    position: relative;
+    background: rgba(28, 28, 34, 0.4);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    box-shadow: 
+      0 4px 6px var(--shadow-soft),
+      0 10px 15px var(--shadow-medium);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .design-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 6px 8px var(--shadow-soft),
+      0 12px 20px var(--shadow-medium);
+  }
+
+  .design-preview {
+    position: relative;
+  }
+
+  .design-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .design-card:hover .design-overlay {
+    opacity: 1;
+  }
+
+  .design-info {
+    padding: 1.5rem;
+  }
+
+  .design-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .design-header h3 {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .design-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .favorite-button {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .favorite-button:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+  }
+
+  .favorite-button[data-favorited="true"] {
+    color: var(--accent-color);
+  }
+
+  .design-menu {
+    position: relative;
+  }
+
+  .menu-button {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--primary-color);
+    border: 1px solid rgba(245, 245, 240, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+    min-width: 150px;
+    display: none;
+    z-index: 10;
+  }
+
+  .design-menu:hover .menu-dropdown {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-dropdown a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+  }
+
+  .menu-dropdown a:hover {
+    background: rgba(245, 245, 240, 0.05);
+  }
+
+  .menu-dropdown a.text-danger {
+    color: #ff4444;
+  }
+
+  .menu-dropdown a.text-danger:hover {
+    background: rgba(255, 68, 68, 0.1);
+  }
+
+  .design-date {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .design-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .design-overlay {
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,0 +1,349 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Settings - WHEELS AI">
+  <div class="settings-container">
+    <div class="settings-header">
+      <h1>Settings</h1>
+      <p class="subtitle">Manage your account preferences</p>
+    </div>
+
+    <div class="settings-grid">
+      <!-- Profile Settings -->
+      <div class="settings-card neo-card">
+        <h2>Profile Settings</h2>
+        <form class="settings-form">
+          <div class="form-group">
+            <label for="name">Display Name</label>
+            <input type="text" id="name" name="name" value="John Doe" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" value="john@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="company">Company (Optional)</label>
+            <input type="text" id="company" name="company" placeholder="Your company name" />
+          </div>
+          <button type="submit" class="neo-button primary">Save Changes</button>
+        </form>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="settings-card neo-card">
+        <h2>Notification Settings</h2>
+        <div class="notification-settings">
+          <div class="notification-item">
+            <div class="notification-info">
+              <h3>Email Notifications</h3>
+              <p>Receive updates about your projects</p>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="notification-item">
+            <div class="notification-info">
+              <h3>Marketing Emails</h3>
+              <p>Receive news and special offers</p>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Settings -->
+      <div class="settings-card neo-card">
+        <h2>Password Settings</h2>
+        <form class="settings-form">
+          <div class="form-group">
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" name="current-password" />
+          </div>
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" name="new-password" />
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" />
+          </div>
+          <button type="submit" class="neo-button primary">Update Password</button>
+        </form>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="settings-card neo-card danger-zone">
+        <h2>Danger Zone</h2>
+        <div class="danger-actions">
+          <div class="danger-info">
+            <h3>Delete Account</h3>
+            <p>Permanently delete your account and all data</p>
+          </div>
+          <button class="neo-button danger">Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .settings-container {
+    padding-top: var(--content-top-padding);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .settings-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--primary-font);
+  }
+
+  .subtitle {
+    color: #aaa;
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .neo-card {
+    position: relative;
+    background: rgba(28, 28, 34, 0.4);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    box-shadow: 
+      0 4px 6px var(--shadow-soft),
+      0 10px 15px var(--shadow-medium);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .neo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 8px var(--shadow-soft),
+      0 12px 20px var(--shadow-medium);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    font-family: var(--primary-font);
+  }
+
+  .settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+  }
+
+  .form-group input {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 2px solid rgba(245, 245, 240, 0.1);
+    border-radius: 8px;
+    background: rgba(245, 245, 240, 0.05);
+    color: var(--secondary-color);
+    transition: all 0.2s ease;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(245, 245, 240, 0.1);
+  }
+
+  .form-group input::placeholder {
+    color: rgba(245, 245, 240, 0.3);
+  }
+
+  .neo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: 3px solid black;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: var(--primary-font);
+  }
+
+  .neo-button.primary {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .neo-button.danger {
+    background: transparent;
+    border-color: #ff4444;
+    color: #ff4444;
+  }
+
+  .neo-button:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Notification Settings */
+  .notification-settings {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(245, 245, 240, 0.05);
+    border-radius: 10px;
+  }
+
+  .notification-info h3 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .notification-info p {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  /* Toggle Switch */
+  .toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  }
+
+  .toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(245, 245, 240, 0.1);
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--secondary-color);
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .toggle-slider {
+    background-color: var(--accent-color);
+  }
+
+  input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+  }
+
+  /* Danger Zone */
+  .danger-zone {
+    border-color: rgba(255, 68, 68, 0.2);
+  }
+
+  .danger-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: 10px;
+  }
+
+  .danger-info h3 {
+    color: #ff4444;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .danger-info p {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 1024px) {
+    .settings-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .settings-container {
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+    }
+
+    .danger-actions {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  }
+</style>

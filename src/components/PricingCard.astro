@@ -1,0 +1,196 @@
+---
+interface Feature {
+  text: string;
+  included: boolean;
+}
+
+interface Props {
+  title: string;
+  price: string;
+  description: string;
+  features: Feature[];
+  ctaText: string;
+  ctaHref: string;
+  popular?: boolean;
+  class?: string;
+}
+
+const {
+  title,
+  price,
+  description,
+  features,
+  ctaText,
+  ctaHref,
+  popular = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['pricing-card', { popular }, className]}>
+  <div class="card-content">
+    <h3>{title}</h3>
+    <div class="price">
+      <span class="amount">{price}</span>
+      {price !== 'Free' && <span class="period">/month</span>}
+    </div>
+    <p class="description">{description}</p>
+    <ul class="features">
+      {features.map(feature => (
+        <li class:list={[{ included: feature.included }]}>
+          {feature.included ? 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="check-icon">
+              <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/>
+            </svg> :
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="dash-icon">
+              <path d="M5 12h14"/>
+            </svg>
+          }
+          {feature.text}
+        </li>
+      ))}
+    </ul>
+    <a href={ctaHref} class="neo-button">{ctaText}</a>
+  </div>
+</div>
+
+<style>
+  .pricing-card {
+    position: relative;
+    background: rgba(245, 245, 240, 0.02);
+    border: 1px solid rgba(245, 245, 240, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .pricing-card.popular {
+    background: rgba(255, 112, 67, 0.1);
+    border-color: var(--accent-color);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: var(--secondary-color);
+    font-family: var(--primary-font);
+  }
+
+  .price {
+    margin-bottom: 1rem;
+  }
+
+  .amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-family: var(--primary-font);
+  }
+
+  .period {
+    font-size: 1rem;
+    color: #aaa;
+  }
+
+  .description {
+    color: #aaa;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    flex-grow: 1;
+  }
+
+  .features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: #aaa;
+  }
+
+  .features li.included {
+    color: var(--secondary-color);
+  }
+
+  .check-icon,
+  .dash-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .check-icon {
+    color: var(--accent-color);
+  }
+
+  .dash-icon {
+    color: #666;
+  }
+
+  .neo-button {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 0;
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+  }
+
+  .neo-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .pricing-card {
+      padding: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    .amount {
+      font-size: 2rem;
+    }
+
+    .description {
+      font-size: 0.875rem;
+    }
+  }
+</style>

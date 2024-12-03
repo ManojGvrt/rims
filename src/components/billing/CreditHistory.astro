@@ -1,0 +1,94 @@
+---
+interface HistoryItem {
+  title: string;
+  date: string;
+  amount: number;
+}
+
+interface Props {
+  history: HistoryItem[];
+}
+
+const { history } = Astro.props;
+---
+
+<div class="billing-history neo-card">
+  <h2>Credit History</h2>
+  <div class="history-list">
+    {history.map(item => (
+      <div class="history-item">
+        <div class="history-info">
+          <span class="history-title">{item.title}</span>
+          <span class="history-date">{item.date}</span>
+        </div>
+        <span class={`history-amount ${item.amount > 0 ? 'credit' : ''}`}>
+          {item.amount > 0 ? '+' : ''}{item.amount} Credits
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .billing-history {
+    padding: 2rem;
+  }
+
+  h2 {
+    font-family: var(--primary-font);
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+  }
+
+  .history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .history-title {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+
+  .history-date {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+
+  .history-amount {
+    font-weight: 500;
+    color: #ff4444;
+  }
+
+  .history-amount.credit {
+    color: #44ff44;
+  }
+
+  @media (max-width: 768px) {
+    .billing-history {
+      padding: 1.5rem;
+    }
+
+    .history-item {
+      padding: 0.75rem;
+    }
+  }
+</style>
