@@ -1,4 +1,6 @@
 ---
+import Navigation from '../components/Navigation.astro';
+
 interface Props {
   title: string;
 }
@@ -26,96 +28,7 @@ const { site, base } = Astro;
   </head>
   <body class="min-h-screen bg-background font-gothic tracking-tight antialiased">
     <div class="relative flex min-h-screen flex-col">
-      
-      <header class="fixed top-0 left-0 right-0 z-50">
-  <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
-  <div class="relative bg-transparent">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="relative flex h-20 items-center justify-between">
-        <!-- Logo Section -->
-        <div class="relative flex-shrink-0 flex items-center z-20">
-          <a href="/" class="group flex items-center space-x-3">
-            <div class="px-3 py-1 bg-white text-black border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-              <span class="font-gothic text-xl font-bold tracking-tight">RIMS AI</span>
-            </div>
-          </a>
-        </div>
-
-        <!-- Navigation and Action Items -->
-        <div class="relative z-20 hidden md:flex items-center space-x-6">
-          <a href="/" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
-            Home
-          </a>
-          <a href="/gallery-public" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
-            Gallery
-          </a>
-          <a href="/pricing" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
-            Pricing
-          </a>
-          <a href="/login" class="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
-            Log in
-          </a>
-          <a href="/signup" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-bold text-black bg-white border-2 border-black rounded-md shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-            Start Free Trial
-          </a>
-        </div>
-
-        <!-- Mobile menu button -->
-        <div class="relative z-20 flex md:hidden">
-          <button type="button" class="inline-flex items-center justify-center rounded-lg p-2.5 text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/10" aria-controls="mobile-menu" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile menu -->
-    <div class="hidden" id="mobile-menu">
-      <div class="space-y-1 px-4 pb-3 pt-2">
-        <a href="/" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Home</a>
-        <a href="/gallery-public" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Gallery</a>
-        <a href="/pricing" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Pricing</a>
-        <div class="mt-4 space-y-3">
-          <a href="/login" class="block px-3 py-2 text-base font-bold text-white/70 hover:text-white hover:bg-white/5 rounded-lg">Log in</a>
-          <a href="/signup" class="block w-full px-4 py-3 text-base font-bold text-black bg-white border-2 border-black rounded-md text-center shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-            Start Free Trial
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileMenuButton && mobileMenu) {
-          mobileMenuButton.addEventListener('click', () => {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.classList.toggle('hidden');
-          });
-        }
-
-        // Navbar scroll effect
-        const header = document.querySelector('header');
-        let lastScrollY = window.scrollY;
-
-        window.addEventListener('scroll', () => {
-          if (lastScrollY < window.scrollY) {
-            header.classList.add('backdrop-blur-xl', 'bg-black/5', 'border-b', 'border-white/5');
-          } else {
-            header.classList.remove('backdrop-blur-xl', 'bg-black/5', 'border-b', 'border-white/5');
-          }
-          lastScrollY = window.scrollY;
-        });
-      </script>
-
+      <Navigation />
       <main class="flex-1">
         <slot />
       </main>
