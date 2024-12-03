@@ -6,8 +6,8 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const { pathname } = Astro.url;
-const { site, base } = Astro;
+const { base } = Astro;
+console.log('Layout Base path:', base);
 ---
 
 <!DOCTYPE html>
@@ -16,28 +16,29 @@ const { site, base } = Astro;
     <meta charset="UTF-8" />
     <meta name="description" content="Custom wheel designs in seconds">
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href="/rims/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Roboto:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;700;800&display=swap" rel="stylesheet">
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <link href={`${base}/src/styles/globals.css`} rel="stylesheet">
+    <link href="/rims/src/styles/globals.css" rel="stylesheet">
   </head>
   <body class="min-h-screen bg-black text-white font-gothic tracking-tight antialiased">
     <div class="relative flex min-h-screen flex-col">
       <Navigation />
-      <main class="pt-24 flex-1">
-        <slot />
+      <main class="flex-1 pt-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <slot />
+        </div>
       </main>
       <footer class="border-t py-6 md:py-0">
         <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-            <a href="/terms" class="text-sm hover:text-foreground/80">Terms</a>
-            <a href="/privacy" class="text-sm hover:text-foreground/80">Privacy</a>
-            <a href="/imprint" class="text-sm hover:text-foreground/80">Imprint</a>
+            <a href="/rims/terms" class="text-sm hover:text-foreground/80">Terms</a>
+            <a href="/rims/privacy" class="text-sm hover:text-foreground/80">Privacy</a>
+            <a href="/rims/imprint" class="text-sm hover:text-foreground/80">Imprint</a>
           </div>
           <p class="text-center text-sm leading-loose text-muted-foreground md:text-left">
             2024 RimVision. All rights reserved.
@@ -50,9 +51,6 @@ const { site, base } = Astro;
 
 <style is:global>
   :root {
-    --navbar-height: 4rem;
-    --content-top-padding: 8rem;
-    --card-top-padding: 12rem;
     --primary-color: #1c1c22; /* Dark grey with blue tint */
     --primary-darker: #16161b; /* Slightly darker for gradient */
     --footer-bg: #0a0a0c;
@@ -119,78 +117,6 @@ const { site, base } = Astro;
     width: 100%;
   }
 
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    height: var(--navbar-height);
-    background: rgba(10, 10, 12, 0.8);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(245, 245, 240, 0.03);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-  }
-
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .nav-logo {
-    font-family: var(--primary-font);
-    font-size: 1.5rem;
-    color: var(--secondary-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .nav-link {
-    color: var(--secondary-color);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 0;
-  }
-
-  .nav-link:hover {
-    color: var(--accent-color);
-  }
-
-  .nav-link.trial-link {
-    background: var(--accent-gradient);
-    color: var(--primary-color);
-    font-weight: 600;
-    border: 1px solid var(--primary-color);
-  }
-
-  .nav-link.trial-link:hover {
-    transform: translateY(-2px);
-    color: var(--primary-color);
-  }
-
-  .nav-link.login {
-    border: 1px solid var(--secondary-color);
-  }
-
-  .nav-link.login:hover {
-    border-color: var(--accent-color);
-  }
-
   footer {
     background: var(--footer-bg);
     padding: 2rem 0;
@@ -247,14 +173,6 @@ const { site, base } = Astro;
 
   a:hover {
     color: var(--accent-color);
-  }
-
-  .content-page {
-    padding-top: calc(var(--navbar-height) + var(--content-top-padding));
-  }
-
-  .card-page {
-    padding-top: var(--card-top-padding);
   }
 
   h1, h2, h3, h4, h5, h6 {
