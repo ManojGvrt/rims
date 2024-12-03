@@ -5,6 +5,7 @@ interface Props {
 
 const { title } = Astro.props;
 const { pathname } = Astro.url;
+const { site, base } = Astro;
 ---
 
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ const { pathname } = Astro.url;
     <meta charset="UTF-8" />
     <meta name="description" content="Custom wheel designs in seconds">
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Roboto:wght@700&display=swap" rel="stylesheet">
@@ -21,7 +22,7 @@ const { pathname } = Astro.url;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <link href="/src/styles/globals.css" rel="stylesheet">
+    <link href={`${base}/src/styles/globals.css`} rel="stylesheet">
   </head>
   <body class="min-h-screen bg-background font-gothic tracking-tight antialiased">
     <div class="relative flex min-h-screen flex-col">
